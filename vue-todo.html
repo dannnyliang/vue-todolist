@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>ToDoMVC</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/vue-todo.css">
+</head>
+<body class="row m-0">
+  <div id="app" class="main container col-12 col-md-8 col-md-offset-2 ">
+    <input type="text" id="addtodo" class="h3 w-100 p-2" v-model="todoInput" @keyup.enter="addTodo(todoInput)" placeholder="輸入代辦事項...">
+
+    <ul class="list-group ">
+      <li class="list-group-item d-flex flex-wrap justify-content-end " v-for="(todo, i) in getTodos" >
+        <span class="d-flex align-self-center align-items-center mr-auto">
+          <input class="checkbox" type="checkbox" :id="'checkbox' + i" v-model="todo.isCompleted">
+          <label class="m-0  h4" :for="'checkbox' + i" @dbclick="editTodo(todo)">{{todo.content}}</label>
+          <input class="edit h4" type="text" v-if="todo.isEdit" v-model="todo.content" @keyup.enter="todo.isEdit = false">
+        </span>
+        <span class="control-btn">
+          <button class="btn btn-primary" v-if="!todo.isEdit" @click="editTodo(todo)">編輯</button>
+          <button class="btn btn-primary" v-if="todo.isEdit" @click="editCancel(todo)">取消</button>
+          <button class="btn btn-primary" @click.stop="removeTodo(todo)">刪除</button>
+        </span>
+      </li>
+    </ul>
+    
+    <div class="bottom border rounded-bottom d-flex flex-wrap justify-content-center justify-content-sm-between">
+      <span>
+      <button class="btn btn-primary" @click="completeAll" :class="showComplete">全部完成</button>
+      <button class="btn btn-primary" @click="completeClear" :class="showClear">刪除已完成</button>
+      </span>
+      <span>
+      <button class="btn btn-outline-primary" @click="setFilter('show_all')">全部</button>
+      <button class="btn btn-outline-primary" @click="setFilter('show_completed')">已完成</button>
+      <button class="btn btn-outline-primary" @click="setFilter('show_incompleted')">未完成</button><br>
+      </span>
+    </div>
+    </div>
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.15/vue.js'></script>
+  <script src="js/vue-todo.js"></script>
+</body>
+</html>
+
